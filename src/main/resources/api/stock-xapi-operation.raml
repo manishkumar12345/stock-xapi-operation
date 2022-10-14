@@ -1,0 +1,60 @@
+#%RAML 1.0
+title: stock-xapi-operation
+
+
+protocols: [HTTP,HTTPS]
+types:
+  buy-stock-quantity: !include DataTypes/buy-stock-by-quantity.raml
+  buy-stock-amount: !include DataTypes/buy-stock-by-amount.raml
+  sell-stock-quantity: !include DataTypes/sell-stock-by-quantity.raml
+
+traits:
+  errorResponses: !include traits/errorTrait.raml
+
+securitySchemes:
+  customSecurity: !include common/securityScheme.raml
+securedBy:
+  - customSecurity
+
+
+/buy-stock-by-quantity:
+  post:
+    is: [errorResponses]
+    description: Buy Stock by Quantity
+    body:
+      application/json:
+        type: buy-stock-quantity
+        examples: !include Examples/buy-stock-quantity-example.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include error-response/201.json
+
+/buy-stock-by-amount:
+  post:
+    is: [errorResponses]
+    description: Buy Stock by the amount
+    body:
+      application/json:
+        type: buy-stock-amount
+        examples: !include Examples/buy-stock-amount-example.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include error-response/201.json
+
+/sell-stock-by-quantity:
+  post:
+    is: [errorResponses]
+    description: Sell Stock by the Quantity
+    body:
+      application/json:
+        type: sell-stock-quantity
+        examples: !include Examples/sell-stock-quantity-example.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include error-response/201.json
