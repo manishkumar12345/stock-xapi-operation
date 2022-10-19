@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="stock-xapi-operation-httpListenerConfig">
+        <http:listener-connection host="${http.host}" port="${http.port}" readTimeout="900000000" connectionIdleTimeout="900000000"/>
+    </http:listener-config>
+    <apikit:config name="stock-xapi-operation-config" api="stock-xapi-operation.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	<http:request-config name="HTTP_Request_configuration_buy_stock_amount" doc:name="HTTP Request configuration" doc:id="48edc497-b22f-4134-a75e-1722d5befbda" basePath="/api">
-		<http:request-connection host="localhost" port="8083" connectionIdleTimeout="5000000"/>
+		<http:request-connection host="${http.host}" port="${http.papi-port}" connectionIdleTimeout="5000000"/>
 	</http:request-config>
 	<http:request-config name="HTTP_Request_to_process_buy_stock_by_quantity" doc:name="HTTP Request configuration" doc:id="539586ef-7eb1-482b-a89c-450044e29bc0" >
-		<http:request-connection host="localhost" port="8083" connectionIdleTimeout="900000"/>
+		<http:request-connection host="${http.host}" port="${http.sapi-port}" connectionIdleTimeout="900000"/>
 	</http:request-config>
 	<http:request-config name="HTTP_Request_to_process_sell_stock_by_quantity" doc:name="HTTP Request configuration" doc:id="8971e9fe-0a2e-4e9b-aa74-39925e513f3f" >
-		<http:request-connection host="localhost" port="8083" connectionIdleTimeout="600000" />
+		<http:request-connection host="${http.host}" port="${http.papi-port}" connectionIdleTimeout="600000" />
 	</http:request-config>
+	<global-property doc:name="Global Property" doc:id="3d5f9a75-44b1-49e8-b454-5735fcf01f24" name="env" value="prod" />
+	<configuration-properties doc:name="Configuration properties" doc:id="e280086a-c4e2-460a-a54d-10b5c1e92d31" file="${env}-config.properties" />
 </mule>
