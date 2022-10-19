@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
     <http:listener-config name="stock-xapi-operation-httpListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8082" />
+        <http:listener-connection host="0.0.0.0" port="8082" readTimeout="900000000" connectionIdleTimeout="900000000"/>
     </http:listener-config>
     <apikit:config name="stock-xapi-operation-config" api="stock-xapi-operation.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="stock-xapi-operation-main">
@@ -125,42 +125,11 @@ output application/json
     </flow>
     <flow name="post:\buy-stock-by-amount:application\json:stock-xapi-operation-config">
         <http:request method="POST" doc:name="process-buy-stock-by-amount" doc:id="4a9b060a-ebe7-4533-9d79-8c46bb1a3ed6" config-ref="HTTP_Request_configuration_buy_stock_amount" path="/process-buy-stock-by-amount"/>
-		<ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 201,
-  message: "Created successfully."
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
     </flow>
     <flow name="post:\buy-stock-by-quantity:application\json:stock-xapi-operation-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 201,
-  message: "Created successfully."
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <http:request method="GET" doc:name="Request to process-buy-stock-by-quantity" doc:id="c38cc63f-6822-42b0-a95b-9571e0edb16a" config-ref="HTTP_Request_to_process_buy_stock_by_quantity" path="/process-buy-stock-by-quantity" responseTimeout="60000"/>
     </flow>
     <flow name="post:\sell-stock-by-quantity:application\json:stock-xapi-operation-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  code: 201,
-  message: "Created successfully."
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <http:request method="GET" doc:name="Request  to process-sell-stock-by-quantity" doc:id="12567378-8c5e-4214-9840-c17c4d57ce82" config-ref="HTTP_Request_to_process_sell_stock_by_quantity" path="/process-sell-stock-by-quantity"/>
     </flow>
 </mule>
