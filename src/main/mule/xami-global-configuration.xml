@@ -21,4 +21,5 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	</http:request-config>
 	<global-property doc:name="Global Property" doc:id="3d5f9a75-44b1-49e8-b454-5735fcf01f24" name="env" value="prod" />
 	<configuration-properties doc:name="Configuration properties" doc:id="e280086a-c4e2-460a-a54d-10b5c1e92d31" file="${env}-config.properties" />
+	<configuration doc:name="Configuration" doc:id="6f24cf62-ce53-4ce6-aa94-23d15f6cd5a4" defaultErrorHandler-ref="xapi-common-error-handlingError_Handler" />
 </mule>
