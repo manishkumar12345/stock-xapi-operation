@@ -5,8 +5,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<error-handler name="xapi-common-error-handlingError_Handler" doc:id="02ba3483-d0a6-4794-8de2-be01b25cb0ee" >
-		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="65669531-30ca-492d-af09-7389a26f17e3" type="DB:BAD_SQL_SYNTAX, DB:CONNECTIVITY, DB:QUERY_EXECUTION, EXPRESSION, STREAM_MAXIMUM_SIZE_EXCEEDED, VALIDATION:INVALID_NUMBER, VALIDATION:NULL">
-			<ee:transform doc:name="Transform Message" doc:id="00afe133-254a-4f30-a034-2623e37317c6" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="65669531-30ca-492d-af09-7389a26f17e3" type="EXPRESSION, STREAM_MAXIMUM_SIZE_EXCEEDED">
+			<ee:transform doc:name="error-message" doc:id="00afe133-254a-4f30-a034-2623e37317c6" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
